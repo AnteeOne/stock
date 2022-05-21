@@ -9,5 +9,5 @@ rootProject.name = "Stock"
 include(":app")
 include(":core:ui")
 include(":core:strings")
-include(":common:di")
+include(":common:multi-compose")
 include(":common:ui-components")
