@@ -101,5 +101,6 @@ object Deps {
 
     object Accompanist {
         const val permissions = "com.google.accompanist:accompanist-permissions:${Versions.accompanist}"
+        const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
     }
 }
