@@ -1,0 +1,125 @@
+package tech.antee.stock.stock_list.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import tech.antee.stock.stock_list.ui.models.StockListModel
+import tech.antee.stock.ui.theme.Dimensions
+import tech.antee.stock.ui.theme.StockTheme
+import tech.antee.stock.ui_components.extensions.clickableRipple
+import kotlin.random.Random
+
+@Composable
+fun StockListItem(
+    stockModel: StockListModel,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(StockItem.height)
+            .background(MaterialTheme.colorScheme.surface),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row {
+            TickerCard(stockTicker = stockModel.ticker)
+            Column(modifier = Modifier.padding(start = Dimensions.paddingHorizontalS)) {
+                Text(
+                    text = stockModel.name,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stockModel.ticker,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            val percentChangesColor = if (stockModel.percentChange >= 0) Green else Red
+            Text(
+                text = "\$${stockModel.price}",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.End
+            )
+            Text(
+                text = "${stockModel.priceChange}%",
+                style = MaterialTheme.typography.bodyLarge,
+                color = percentChangesColor,
+                textAlign = TextAlign.End
+            )
+        }
+    }
+}
+
+@Composable
+fun TickerCard(
+    stockTicker: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .size(StockItem.height),
+        shape = RoundedCornerShape(Dimensions.cornersM),
+        backgroundColor = MaterialTheme.colorScheme.primary
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stockTicker.substring(0, 1),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun StockListItemPreview() {
+    StockTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            StockListItem(
+                modifier = Modifier
+                    .clickableRipple { }
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                stockModel = StockListModel(
+                    21,
+                    "Alibaba holdings",
+                    "BABA",
+                    String.format("%.2f", Random.nextDouble(from = 4.0, until = 140.5)).toDouble(),
+                    String.format("%.2f", Random.nextDouble(from = -14.0, until = 14.5)).toDouble(),
+                    String.format("%.2f", Random.nextDouble(from = -8.0, until = 8.0)).toDouble()
+                ),
+            )
+        }
+    }
+}
+
+object StockItem {
+    val height = 52.dp
+    val tickerBorder = 1.dp
+}

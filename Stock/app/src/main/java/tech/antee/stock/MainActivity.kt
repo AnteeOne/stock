@@ -9,6 +9,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import tech.antee.stock.ui.theme.StockTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

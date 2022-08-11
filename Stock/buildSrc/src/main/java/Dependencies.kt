@@ -25,7 +25,7 @@ object Versions {
 
     const val javaxInject = "1"
     const val dagger = "2.41"
-    const val retrofit = "2.6.0"
+    const val retrofit = "2.9.0"
     const val okHttp = "3.12.6"
     const val jodaTime = "2.10.6"
     const val maskedEditText = "1.0.5"
@@ -102,5 +102,10 @@ object Deps {
     object Accompanist {
         const val permissions = "com.google.accompanist:accompanist-permissions:${Versions.accompanist}"
         const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
+    }
+
+    object Network {
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+        const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     }
 }
