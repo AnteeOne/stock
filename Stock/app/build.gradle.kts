@@ -14,8 +14,14 @@ android {
 }
 
 dependencies {
-    implementation(project(Modules.coreUi))
-    implementation(project(Modules.coreStrings))
+    projectImplementation(Modules.coreUi)
+    projectImplementation(Modules.coreStrings)
+    projectImplementation(Modules.commonDomain)
+    projectImplementation(Modules.commonData)
+    projectImplementation(Modules.commonUi)
+    projectImplementation(Modules.commonDi)
+    projectImplementation(Modules.commonMultiCompose)
+    projectImplementation(Modules.featureStockListImpl)
 
     implementation(Deps.Compose.ui)
     implementation(Deps.Compose.foundation)
@@ -31,6 +37,8 @@ dependencies {
     implementation(Deps.constraintLayout)
     implementation(Deps.Compose.navigation)
     implementation(Deps.Accompanist.systemUiController)
+    implementation(Deps.Network.retrofit)
+    implementation(Deps.Network.okHttpLogging)
     testImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
     androidTestImplementation(Deps.Test.jUnit)

@@ -5,8 +5,8 @@ import androidx.navigation.*
 import androidx.navigation.compose.composable
 
 /**
- * Base interface for new feature. Use [com.mircod.evimate.common.navigation.ComposableFeature]
- * for implementation base simple case and [com.mircod.evimate.common.navigation.GraphFeature] if feature has
+ * Base interface for new feature. Use [tech.antee.stock.common.navigation.ComposableFeature]
+ * for implementation base simple case and [tech.antee.stock.common.navigation.GraphFeature] if feature has
  * nested navigation and contains its own navigation subgraph. Use this interfaces extension function
  * instead standard navigation library for implementing multi-module navigation
  **/
