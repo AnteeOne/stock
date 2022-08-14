@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Modules.commonMultiCompose))
+    projectImplementation(Modules.commonMultiCompose)
 
     implementation(Deps.appCompat)
     implementation(Deps.coreKtx)

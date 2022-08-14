@@ -4,10 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import tech.antee.stock.di.injectedViewModel
 import tech.antee.stock.multi_compose.Destinations
 import tech.antee.stock.stock_list.api.StockListFeature
+import tech.antee.stock.stock_list.di.DaggerStockListComponent
+import tech.antee.stock.stock_list.di.LocalStockListDependencies
+import javax.inject.Inject
 
-class StockListFeatureImpl : StockListFeature() {
+class StockListFeatureImpl @Inject constructor() : StockListFeature() {
 
     @Composable
     override fun NavGraphBuilder.Composable(
@@ -15,6 +19,12 @@ class StockListFeatureImpl : StockListFeature() {
         destinations: Destinations,
         backStackEntry: NavBackStackEntry
     ) {
-        // TODO: add implementation
+        val deps = LocalStockListDependencies.current
+        val viewModel = injectedViewModel {
+            DaggerStockListComponent.factory()
+                .create(deps)
+                .viewModel
+        }
+        StockListScreen(viewModel = viewModel)
     }
 }

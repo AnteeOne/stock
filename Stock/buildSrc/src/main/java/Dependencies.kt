@@ -59,8 +59,10 @@ object Deps {
     const val coreKtx = "androidx.core:core-ktx:${Versions.androidxCoreKtx}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.androidxLifecycle}"
+    const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.androidxLifecycle}"
+    const val lifecycleService = "androidx.lifecycle:lifecycle-service:${Versions.androidxLifecycle}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.androidxConstraint}"
+    const val inject = "javax.inject:javax.inject:${Versions.javaxInject}"
 
     object Test {
         const val jUnit = "junit:junit:${Versions.junit}"
@@ -90,6 +92,7 @@ object Deps {
     }
 
     object Coroutines {
+        const val kotlinCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutine}"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutine}"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.androidxLifecycle}"
     }
@@ -107,5 +110,7 @@ object Deps {
     object Network {
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
         const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+        const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+        const val okHttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
     }
 }

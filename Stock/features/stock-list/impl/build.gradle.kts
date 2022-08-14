@@ -6,12 +6,15 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Modules.coreUi))
-    implementation(project(Modules.coreStrings))
-    implementation(project(Modules.commonMultiCompose))
-    implementation(project(Modules.commonUiComponents))
+    projectImplementation(Modules.coreUi)
+    projectImplementation(Modules.coreStrings)
+    projectImplementation(Modules.commonMultiCompose)
+    projectImplementation(Modules.commonUiComponents)
+    projectImplementation(Modules.commonDomain)
+    projectImplementation(Modules.commonUi)
+    projectImplementation(Modules.commonDi)
 
-    api(project(Modules.featureStockListApi))
+    projectApi(Modules.featureStockListApi)
 
     implementation(Deps.appCompat)
     implementation(Deps.coreKtx)
@@ -23,7 +26,7 @@ dependencies {
     implementation(Deps.Compose.material3)
     implementation(Deps.Compose.navigation)
     implementation(Deps.Compose.toolsPreview)
-    debugImplementation(Deps.Compose.tools)
+    implementation(Deps.Compose.tools)
 
     implementation(Deps.Dagger.core)
     kapt(Deps.Dagger.compiler)

@@ -12,7 +12,7 @@ fun Modifier.clickableRipple(
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null,
-    rippleIsBounded: Boolean = false,
+    rippleIsBounded: Boolean = true,
     onClick: () -> Unit
 ) = composed {
     Modifier.clickable(
