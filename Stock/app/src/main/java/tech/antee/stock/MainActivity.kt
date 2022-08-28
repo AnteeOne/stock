@@ -15,9 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import tech.antee.stock.di.LocalAppProvider
 import tech.antee.stock.multi_compose.find
+import tech.antee.stock.stock_details.impl.di.LocalStockDetailsDependencies
 import tech.antee.stock.stock_list.api.StockListFeature
 import tech.antee.stock.stock_list.di.LocalStockListDependencies
 import tech.antee.stock.ui.theme.StockTheme
+import tech.antee.stock_details.StockDetailsFeature
 
 class MainActivity : ComponentActivity() {
 
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
         CompositionLocalProvider(
             LocalAppProvider provides application.appProvider,
             LocalStockListDependencies provides application.appProvider,
+            LocalStockDetailsDependencies provides application.appProvider,
             content = content
         )
     }
@@ -61,10 +64,12 @@ class MainActivity : ComponentActivity() {
         val destinations = LocalAppProvider.current.destinations
 
         val stockListFeature = destinations.find<StockListFeature>()
+        val stockDetailFeature = destinations.find<StockDetailsFeature>()
 
         Box(Modifier.fillMaxSize()) {
             NavHost(navController, stockListFeature.featureRoute) {
                 with(stockListFeature) { composable(navController, destinations) }
+                with(stockDetailFeature) { composable(navController, destinations) }
             }
         }
     }

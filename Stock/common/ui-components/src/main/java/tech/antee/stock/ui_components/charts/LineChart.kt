@@ -14,15 +14,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import tech.antee.stock.ui.theme.StockTheme
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.round
 import kotlin.math.roundToInt
 
 @Composable
 fun LineChart(
-    data: List<Pair<Int, Double>>,
-    modifier: Modifier = Modifier
+    data: List<Pair<Long, Double>>,
+    modifier: Modifier = Modifier,
+    isLabelsEnabled: Boolean = false
 ) {
-    val spacing = 100f
+    val spacing = 0f
     val graphColor = MaterialTheme.colorScheme.primary
     val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
     val upperValue = remember { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
@@ -38,28 +41,30 @@ fun LineChart(
     }
 
     Canvas(modifier = modifier) {
-        val spacePerHour = (size.width - spacing) / data.size
-        (data.indices step 2).forEach { i ->
-            val hour = data[i].first
-            drawContext.canvas.nativeCanvas.apply {
-                drawText(
-                    hour.toString(),
-                    spacing + i * spacePerHour,
-                    size.height,
-                    textPaint
-                )
+        val spacePerPoint = (size.width - spacing) / data.size
+        if (isLabelsEnabled) {
+            (data.indices step 2).forEach { i ->
+                val timestamp = data[i].first
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        timestamp.formatToDate(),
+                        spacing + i * spacePerPoint,
+                        size.height,
+                        textPaint
+                    )
+                }
             }
-        }
 
-        val priceStep = (upperValue - lowerValue) / 5f
-        (0..4).forEach { i ->
-            drawContext.canvas.nativeCanvas.apply {
-                drawText(
-                    round(lowerValue + priceStep * i).toString(),
-                    30f,
-                    size.height - spacing - i * size.height / 5f,
-                    textPaint
-                )
+            val priceStep = (upperValue - lowerValue) / 5f
+            (0..4).forEach { i ->
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        round(lowerValue + priceStep * i).toString(),
+                        30f,
+                        size.height - spacing - i * size.height / 5f,
+                        textPaint
+                    )
+                }
             }
         }
 
@@ -72,9 +77,9 @@ fun LineChart(
                 val firstRatio = (data[i].second - lowerValue) / (upperValue - lowerValue)
                 val secondRatio = (nextInfo.second - lowerValue) / (upperValue - lowerValue)
 
-                val x1 = spacing + i * spacePerHour
+                val x1 = spacing + i * spacePerPoint
                 val y1 = height - spacing - (firstRatio * height).toFloat()
-                val x2 = spacing + (i + 1) * spacePerHour
+                val x2 = spacing + (i + 1) * spacePerPoint
                 val y2 = height - spacing - (secondRatio * height).toFloat()
                 if (i == 0) {
                     moveTo(x1, y1)
@@ -90,13 +95,13 @@ fun LineChart(
             path = strokePath,
             color = graphColor,
             style = Stroke(
-                width = 4.dp.toPx(),
+                width = 3.dp.toPx(),
                 cap = StrokeCap.Round
             )
         )
 
         val fillPath = android.graphics.Path(strokePath.asAndroidPath()).asComposePath().apply {
-            lineTo(size.width - spacePerHour, size.height - spacing)
+            lineTo(size.width - spacePerPoint, size.height - spacing)
             lineTo(spacing, size.height - spacing)
             close()
         }
@@ -117,22 +122,25 @@ fun LineChart(
 @Preview
 @Composable
 private fun LineChartPreview() = StockTheme {
-    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         LineChart(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp),
             data = listOf(
-                0 to 2.3,
-                1 to 4.3,
-                2 to 6.3,
-                3 to 3.3,
-                4 to 7.3,
-                5 to 9.3,
-                6 to 8.3,
-                7 to 19.3,
-                20 to 2.3,
+                0L to 2.3,
+                1L to 4.3,
+                2L to 6.3,
+                3L to 3.3,
+                4L to 7.3,
+                5L to 9.3,
+                6L to 8.3,
+                7L to 10.3,
+                20L to 2.3,
+                30L to 2234234.3,
             )
         )
     }
 }
+
+private fun Long.formatToDate(): String = SimpleDateFormat("dd.MM", Locale.US).format(Date(this))

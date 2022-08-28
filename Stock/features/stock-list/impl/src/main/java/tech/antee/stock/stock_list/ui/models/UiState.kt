@@ -8,6 +8,12 @@ data class UiState(
 
     fun isSuccess() = !isLoading
 
+    fun copyWithError() = copy(isError = true)
+
+    fun copyWithLoading(isLoading: Boolean) = copy(isLoading = isLoading, isError = false)
+
+    fun copyWithSuccess(stocks: List<StockInListItem>) = copy(stocks = stocks, isError = false)
+
     companion object {
         fun empty() = UiState(
             stocks = emptyList(),

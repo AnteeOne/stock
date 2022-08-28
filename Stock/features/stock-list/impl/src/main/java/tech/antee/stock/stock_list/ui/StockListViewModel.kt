@@ -2,15 +2,16 @@ package tech.antee.stock.stock_list.ui
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import tech.antee.stock.common_ui.BaseViewModel
-import tech.antee.stock.domain.usecases.GetStockUsecase
+import tech.antee.stock.domain.usecases.GetStockListUsecase
+import tech.antee.stock.stock_list.ui.mappers.StockInListUiMapper
 import tech.antee.stock.stock_list.ui.models.Action
 import tech.antee.stock.stock_list.ui.models.Event
-import tech.antee.stock.stock_list.ui.models.StockInListItem
 import tech.antee.stock.stock_list.ui.models.UiState
 import javax.inject.Inject
 
 class StockListViewModel @Inject constructor(
-    private val getStockUsecase: GetStockUsecase
+    private val getStockListUsecase: GetStockListUsecase,
+    private val mapper: StockInListUiMapper
 ) : BaseViewModel<UiState, Event>() {
 
     override val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.empty())
@@ -27,27 +28,20 @@ class StockListViewModel @Inject constructor(
 
     private fun fetchStockList() {
         launchSafely(
-            onLoading = { isLoading ->
-                updateState {
-                    it.copy(
-                        isLoading = isLoading,
-                        isError = false
-                    )
-                }
-            }
+            onLoading = { isLoading -> updateState { it.copyWithLoading(isLoading) } }
         ) {
             updateState {
                 it.copy(
-                    stocks = getStockUsecase().map {
-                        with(it) {
-                            StockInListItem(
-                                id, name, ticker, price, priceChange, percentChange // TODO: map this OAOAOAOAOAA
-                            )
-                        }
-                    },
+                    stocks = getStockListUsecase().map(mapper::mapFromDomain),
                     isError = false
                 )
             }
         }
+    }
+
+    override fun onError(exception: Throwable) {
+        super.onError(exception)
+        updateState { it.copyWithError() }
+        exception.printStackTrace()
     }
 }

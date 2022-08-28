@@ -3,10 +3,8 @@ package tech.antee.stock.data.remote.di
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import tech.antee.stock.data.BuildConfig
 import tech.antee.stock.data.remote.api.StockNetworkApi
 import tech.antee.stock.data.remote.config.NetworkConfig
 import javax.inject.Singleton
@@ -30,17 +28,5 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun okHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient = OkHttpClient.Builder()
-        .apply {
-            if (BuildConfig.DEBUG) addInterceptor(httpLoggingInterceptor)
-        }
-        .build()
-
-    @Provides
-    @Singleton
-    fun loggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
+    fun okHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
 }
