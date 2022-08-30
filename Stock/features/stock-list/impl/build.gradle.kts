@@ -15,6 +15,7 @@ dependencies {
     projectImplementation(Modules.commonDi)
 
     projectApi(Modules.featureStockListApi)
+    projectImplementation(Modules.featureStockDetailsApi)
 
     implementation(Deps.appCompat)
     implementation(Deps.coreKtx)
@@ -27,6 +28,7 @@ dependencies {
     implementation(Deps.Compose.navigation)
     implementation(Deps.Compose.toolsPreview)
     implementation(Deps.Compose.tools)
+    implementation(Deps.Compose.koil)
 
     implementation(Deps.Dagger.core)
     kapt(Deps.Dagger.compiler)

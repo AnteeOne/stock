@@ -6,5 +6,6 @@ data class StockInListItem(
     val ticker: String,
     val price: Double,
     val priceChange: Double,
-    val percentChange: Double
+    val percentChange: Double,
+    val imageUrl: String
 )

@@ -19,6 +19,7 @@ import tech.antee.stock.ui_components.extensions.clickableRipple
 @Composable
 internal fun StockListScreen(
     viewModel: StockListViewModel,
+    onStockClick: (stockId: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -32,15 +33,17 @@ internal fun StockListScreen(
                 modifier = Modifier
             ) {
                 if (uiState.isSuccess()) {
-                    items(uiState.stocks) {
+                    items(uiState.stocks) { stockItem ->
                         StockListItemComponent(
                             modifier = Modifier
-                                .clickableRipple { }
+                                .clickableRipple {
+                                    onStockClick(stockItem.id)
+                                }
                                 .padding(
                                     horizontal = Dimensions.paddingHorizontalM,
                                     vertical = Dimensions.paddingVerticalXxs
                                 ),
-                            stockModel = it
+                            stockModel = stockItem
                         )
                     }
                 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import tech.antee.stock.common_ui.ktx.formatAsPercents
 import tech.antee.stock.common_ui.ktx.formatUntilThird
 import tech.antee.stock.stock_list.ui.models.StockInListItem
@@ -35,7 +36,7 @@ fun StockListItemComponent(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row {
-            TickerCard(stockTicker = stockModel.ticker.uppercase())
+            TickerImageCard(stockName = stockModel.name, imageUrl = stockModel.imageUrl)
             Column(modifier = Modifier.padding(start = Dimensions.paddingHorizontalS)) {
                 Text(
                     text = stockModel.name,
@@ -93,6 +94,17 @@ fun TickerCard(
     }
 }
 
+@Composable
+fun TickerImageCard(
+    stockName: String,
+    imageUrl: String,
+    modifier: Modifier = Modifier
+) = AsyncImage(
+    modifier = modifier.size(StockListItemDefaults.height),
+    model = imageUrl,
+    contentDescription = stockName
+)
+
 @Preview
 @Composable
 private fun StockListItemPreview() {
@@ -112,7 +124,8 @@ private fun StockListItemPreview() {
                     "BABA",
                     String.format("%.2f", Random.nextDouble(from = 4.0, until = 140.5)).toDouble(),
                     String.format("%.2f", Random.nextDouble(from = -14.0, until = 14.5)).toDouble(),
-                    String.format("%.2f", Random.nextDouble(from = -8.0, until = 8.0)).toDouble()
+                    String.format("%.2f", Random.nextDouble(from = -8.0, until = 8.0)).toDouble(),
+                    ""
                 ),
             )
         }

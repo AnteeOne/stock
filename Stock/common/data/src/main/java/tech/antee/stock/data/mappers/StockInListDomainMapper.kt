@@ -4,7 +4,7 @@ import tech.antee.stock.data.remote.dto.StockInListDto
 import tech.antee.stock.domain.models.StockInList
 import javax.inject.Inject
 
-class StockDomainMapper @Inject constructor() {
+class StockInListDomainMapper @Inject constructor() {
 
     fun mapFromDto(dto: StockInListDto): StockInList = with(dto) {
         StockInList(
@@ -13,7 +13,8 @@ class StockDomainMapper @Inject constructor() {
             symbol,
             currentPrice,
             priceChange24h,
-            priceChangePercentage24h
+            priceChangePercentage24h,
+            image
         )
     }
 }
