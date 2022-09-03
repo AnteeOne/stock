@@ -69,5 +69,5 @@ object Dimensions {
     val heightButtonXs = 36.dp
     val heightButtonM = 50.dp
 
-    val sizeProgressBarS = xl
+    val sizeProgressBarS = xxxl
 }

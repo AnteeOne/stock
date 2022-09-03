@@ -8,4 +8,6 @@ interface StockRepository {
     suspend fun getStocks(): List<StockInList>
 
     suspend fun getStockDetails(id: String): StockDetails
+
+    suspend fun getStocks(perPage: Int, page: Int): List<StockInList>
 }

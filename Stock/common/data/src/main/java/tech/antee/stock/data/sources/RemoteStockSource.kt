@@ -11,4 +11,6 @@ interface RemoteStockSource {
     suspend fun getStockDetails(stockId: String): StockDetailsDto
 
     suspend fun getStockChart(stockId: String): StockChartDto
+
+    suspend fun getStockList(perPage: Int, page: Int): List<StockInListDto>
 }

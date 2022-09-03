@@ -12,6 +12,11 @@ class RemoteStockSourceImpl @Inject constructor(
 
     override suspend fun getStockList(): List<StockInListDto> = api.getStocksInList()
 
+    override suspend fun getStockList(
+        perPage: Int,
+        page: Int
+    ): List<StockInListDto> = api.getStocksInList(perPage = perPage, page = page)
+
     override suspend fun getStockDetails(stockId: String): StockDetailsDto = api.getStocksDetails(stockId).first()
 
     override suspend fun getStockChart(stockId: String): StockChartDto = api.getStockChart(stockId)

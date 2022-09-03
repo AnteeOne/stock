@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import tech.antee.stock.ui.theme.Dimensions
+import tech.antee.stock.ui_components.loader.Loader
 
 @Composable
 fun StockButton(
@@ -105,11 +105,10 @@ private fun LoadingButton(
         shape = shape,
         onClick = onClick
     ) {
-        CircularProgressIndicator(
+        Loader(
             modifier = Modifier
                 .size(Dimensions.sizeProgressBarS)
-                .align(Alignment.CenterVertically),
-            color = MaterialTheme.colorScheme.primary
+                .align(Alignment.CenterVertically)
         )
     }
 }

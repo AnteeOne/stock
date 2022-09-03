@@ -3,7 +3,9 @@ package tech.antee.stock.ui.theme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-val BlueCerulean = Color(0xFF10A7C8)
+val Black = Color(0xFF000000)
+
+val Green = Color(0xFF1DB954)
 val BlueCornflower = Color(0x8010A7C8)
 val GreenSpring = Color(0xFF0DFA96)
 
@@ -26,9 +28,9 @@ val BlackDove = Color(0x80000000)
 val White = Color(0xFFFFFFFF)
 
 internal val LightColorPalette = lightColorScheme(
-    background = White,
-    onBackground = BlackShark,
-    primary = BlueCerulean,
+    background = Black,
+    onBackground = Green,
+    primary = Black,
     onPrimary = White,
     primaryContainer = BlueCornflower,
     onPrimaryContainer = White,
@@ -41,13 +43,13 @@ internal val LightColorPalette = lightColorScheme(
     onTertiary = White,
     tertiaryContainer = WhiteSnuff,
     onTertiaryContainer = White,
-    surface = WhiteCatskill,
-    onSurface = BlackShark,
+    surface = Black,
+    onSurface = White,
     surfaceVariant = BlackSilverChalice,
     onSurfaceVariant = GrayMid,
     inverseSurface = BlackSilverChalice,
     inverseOnSurface = BlackDove,
-    outline = BlueCerulean,
+    outline = Green,
     error = RedApricot,
     errorContainer = RedApricot,
     onErrorContainer = White

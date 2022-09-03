@@ -25,6 +25,7 @@ dependencies {
     implementation(Deps.Compose.material)
     implementation(Deps.Compose.material3)
     implementation(Deps.Compose.navigation)
+    implementation(Deps.Compose.koil)
     implementation(Deps.Compose.toolsPreview)
     implementation(Deps.Compose.tools)
 
