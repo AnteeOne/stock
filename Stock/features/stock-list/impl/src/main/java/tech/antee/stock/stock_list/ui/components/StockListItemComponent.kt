@@ -54,7 +54,7 @@ fun StockListItemComponent(
             val percentChangesColor = if (stockModel.percentChange >= 0) Green else Red
             Text(
                 text = "\$${stockModel.price.formatUntilThird()}",
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.End
             )

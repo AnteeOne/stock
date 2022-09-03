@@ -20,6 +20,13 @@ class StockRepositoryImpl @Inject constructor(
         return remoteStockSource.getStockList().map(stockInListDomainMapper::mapFromDto)
     }
 
+    override suspend fun getStocks(
+        perPage: Int,
+        page: Int
+    ): List<StockInList> {
+        return remoteStockSource.getStockList(perPage, page).map(stockInListDomainMapper::mapFromDto)
+    }
+
     override suspend fun getStockDetails(id: String): StockDetails = coroutineScope {
         with(remoteStockSource) {
             val stockDetails = async { getStockDetails(id) }

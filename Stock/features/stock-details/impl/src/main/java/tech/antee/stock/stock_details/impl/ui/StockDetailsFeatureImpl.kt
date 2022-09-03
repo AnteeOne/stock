@@ -26,7 +26,10 @@ class StockDetailsFeatureImpl @Inject constructor() : StockDetailsFeature() {
                     .create(deps, stockId)
                     .viewModel
             }
-            StockDetailsScreen(viewModel)
+            StockDetailsScreen(
+                viewModel = viewModel,
+                onBackButtonClick = { navController.popBackStack() }
+            )
         }
     }
 }

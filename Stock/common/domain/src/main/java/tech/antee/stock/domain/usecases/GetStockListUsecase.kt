@@ -8,4 +8,9 @@ class GetStockListUsecase @Inject constructor(
     private val stockRepository: StockRepository
 ) {
     suspend operator fun invoke(): List<StockInList> = stockRepository.getStocks()
+
+    suspend operator fun invoke(
+        perPage: Int,
+        page: Int
+    ): List<StockInList> = stockRepository.getStocks(perPage, page)
 }

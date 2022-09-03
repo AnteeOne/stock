@@ -23,11 +23,11 @@ import kotlin.math.roundToInt
 fun LineChart(
     data: List<Pair<Long, Double>>,
     modifier: Modifier = Modifier,
+    graphColor: Color = MaterialTheme.colorScheme.primary,
+    transparentGraphColor: Color = remember { graphColor.copy(alpha = 0.7f) },
     isLabelsEnabled: Boolean = false
 ) {
     val spacing = 0f
-    val graphColor = MaterialTheme.colorScheme.primary
-    val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
     val upperValue = remember { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
     val lowerValue = remember { (data.minOfOrNull { it.second }?.toInt() ?: 0) }
     val density = LocalDensity.current
