@@ -1,5 +1,6 @@
 package tech.antee.stock.data.mappers
 
+import tech.antee.stock.data.local.entities.SubStockEntity
 import tech.antee.stock.data.remote.dto.StockChartDto
 import tech.antee.stock.data.remote.dto.StockDetailsDto
 import tech.antee.stock.domain.models.ChartPoint
@@ -8,9 +9,10 @@ import javax.inject.Inject
 
 class StockDetailsDomainMapper @Inject constructor() {
 
-    fun mapFromDtos(
+    fun mapFromData(
         stockDetailsDto: StockDetailsDto,
-        stockChartDto: StockChartDto
+        stockChartDto: StockChartDto,
+        subStockEntities: List<SubStockEntity>
     ): StockDetails = with(stockDetailsDto) {
         StockDetails(
             id = id,
@@ -23,7 +25,8 @@ class StockDetailsDomainMapper @Inject constructor() {
             low24h = low24h,
             lastUpdated = lastUpdated,
             chartData = stockChartDto.prices.map { ChartPoint(it[0].toLong(), it[1]) },
-            imageUrl = image
+            imageUrl = image,
+            inSubList = subStockEntities.any { it.stockId == id }
         )
     }
 }

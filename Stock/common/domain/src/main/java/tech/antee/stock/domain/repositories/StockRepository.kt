@@ -10,4 +10,8 @@ interface StockRepository {
     suspend fun getStockDetails(id: String): StockDetails
 
     suspend fun getStocks(perPage: Int, page: Int): List<StockInList>
+
+    suspend fun subscribeToStock(stockId: String, actualPrice: Double)
+
+    suspend fun unsubscribeFromStock(stockId: String)
 }
