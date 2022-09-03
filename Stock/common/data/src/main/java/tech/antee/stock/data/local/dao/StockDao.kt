@@ -1,6 +1,7 @@
 package tech.antee.stock.data.local.dao
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import tech.antee.stock.data.local.entities.SubResultEntity
 import tech.antee.stock.data.local.entities.SubStockEntity
 
@@ -15,6 +16,9 @@ interface StockDao {
 
     @Query("SELECT * FROM sub_stock_entities WHERE stockId LIKE :id LIMIT 1")
     fun getSubStockById(id: String): SubStockEntity
+
+    @Query("SELECT * FROM sub_stock_entities WHERE stockId LIKE :id LIMIT 1")
+    fun getSubStockFlowById(id: String): Flow<SubStockEntity?>
 
     @Query("SELECT * FROM sub_result_entities WHERE stockId LIKE :id LIMIT 1")
     fun getSubResultById(id: String): SubResultEntity

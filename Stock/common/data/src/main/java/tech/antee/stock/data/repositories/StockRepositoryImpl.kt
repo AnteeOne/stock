@@ -3,6 +3,9 @@ package tech.antee.stock.data.repositories
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import tech.antee.stock.data.local.entities.SubStockEntity
 import tech.antee.stock.data.mappers.StockDetailsDomainMapper
 import tech.antee.stock.data.mappers.StockInListDomainMapper
@@ -38,6 +41,20 @@ class StockRepositoryImpl @Inject constructor(
             val subStocks = async(Dispatchers.IO) { localStockSource.getAllSubStocks() }
             stockDetailsDomainMapper.mapFromData(stockDetails.await(), stockChart.await(), subStocks.await())
         }
+    }
+
+    override suspend fun getStockDetailsFlow(id: String): Flow<StockDetails> = flow {
+        coroutineScope {
+            with(remoteStockSource) {
+                val stockDetails = async { getStockDetails(id) }
+                val stockChart = async { getStockChart(id) }
+                emit(stockDetails.await() to stockChart.await())
+            }
+        }
+    }.combine(localStockSource.getSubStockFlowById(id)) { stockDto, subStock ->
+        stockDetailsDomainMapper.mapFromData(
+            stockDto.first, stockDto.second, listOfNotNull(subStock)
+        )
     }
 
     override suspend fun subscribeToStock(

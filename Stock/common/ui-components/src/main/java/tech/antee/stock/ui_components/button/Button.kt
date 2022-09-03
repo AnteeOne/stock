@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import tech.antee.stock.ui.theme.Dimensions
+import tech.antee.stock.ui.theme.Green
 import tech.antee.stock.ui_components.loader.Loader
 
 @Composable
@@ -60,6 +61,7 @@ private fun Button(
     shape = shape,
     colors = with(MaterialTheme.colorScheme) {
         ButtonDefaults.buttonColors(
+            containerColor = Green,
             disabledContainerColor = primary.copy(alpha = 0.5f),
             disabledContentColor = onPrimaryContainer
         )

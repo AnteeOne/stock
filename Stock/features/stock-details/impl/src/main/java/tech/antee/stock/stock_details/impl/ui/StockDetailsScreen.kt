@@ -19,10 +19,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import tech.antee.stock.common_ui.ktx.formatAsPercents
+import tech.antee.stock.stock_details.impl.ui.models.Action
 import tech.antee.stock.stock_details.impl.ui.models.StockDetailsItem
+import tech.antee.stock.stock_details.impl.ui.models.SubButtonState
+import tech.antee.stock.ui.theme.Black
 import tech.antee.stock.ui.theme.Dimensions
 import tech.antee.stock.ui.theme.Green
 import tech.antee.stock.ui.theme.White
+import tech.antee.stock.ui_components.button.ButtonState
 import tech.antee.stock.ui_components.button.StockButton
 import tech.antee.stock.ui_components.charts.LineChart
 import tech.antee.stock.ui_components.common.VerticalSpacer
@@ -66,7 +70,10 @@ fun StockDetailsScreen(
                 ) {
                     StockChartCard()
                     VerticalSpacer(height = 16.dp)
-                    SubscribeButton(onClick = { }) // TODO:::
+                    SubscribeButton(
+                        onClick = { viewModel.onAction(Action.OnSubscribeButtonClick) },
+                        subButtonState = uiState.subButtonState
+                    ) // TODO:::
                 }
             }
         }
@@ -146,17 +153,26 @@ fun StockDetailsItem.StockChartCard(
 @Composable
 fun SubscribeButton(
     modifier: Modifier = Modifier,
+    subButtonState: SubButtonState,
     onClick: () -> Unit
 ) {
     StockButton(
-        modifier = modifier.background(
-            brush = Brush.verticalGradient(
-                colors = listOf(White.copy(alpha = 0.4f), White.copy(alpha = 0.1f))
-            ),
-            shape = RoundedCornerShape(Dimensions.cornersM)
-        ),
-        onClick = { }
+        modifier = modifier,
+        buttonState = when (subButtonState) {
+            SubButtonState.Loading -> ButtonState.Loading
+            SubButtonState.Subbed -> ButtonState.Outlined
+            SubButtonState.Unsubbed -> ButtonState.Enabled
+        },
+        onClick = onClick
     ) {
-        Text(text = "Subscribe")
+        val text = when (subButtonState) {
+            SubButtonState.Loading -> ""
+            SubButtonState.Subbed -> "Unsubscribe"
+            SubButtonState.Unsubbed -> "Subscribe"
+        }
+        Text(
+            text = text,
+            color = if (subButtonState is SubButtonState.Subbed) White else Black
+        )
     }
 }

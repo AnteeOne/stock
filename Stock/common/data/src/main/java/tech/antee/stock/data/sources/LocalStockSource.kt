@@ -1,23 +1,26 @@
 package tech.antee.stock.data.sources
 
+import kotlinx.coroutines.flow.Flow
 import tech.antee.stock.data.local.entities.SubResultEntity
 import tech.antee.stock.data.local.entities.SubStockEntity
 
 interface LocalStockSource {
 
-    fun getAllSubStocks(): List<SubStockEntity>
+    suspend fun getAllSubStocks(): List<SubStockEntity>
 
-    fun getAllSubResults(): List<SubResultEntity>
+    suspend fun getAllSubResults(): List<SubResultEntity>
 
-    fun getSubStockById(id: String): SubStockEntity
+    suspend fun getSubStockById(id: String): SubStockEntity
 
-    fun getSubResultById(id: String): SubResultEntity
+    fun getSubStockFlowById(id: String): Flow<SubStockEntity?>
 
-    fun insertSubStocks(vararg subStocks: SubStockEntity)
+    suspend fun getSubResultById(id: String): SubResultEntity
 
-    fun insertSubResults(vararg subResults: SubResultEntity)
+    suspend fun insertSubStocks(vararg subStocks: SubStockEntity)
 
-    fun deleteSubStocks(vararg subStocks: SubStockEntity)
+    suspend fun insertSubResults(vararg subResults: SubResultEntity)
 
-    fun deleteSubResults(vararg subResults: SubResultEntity)
+    suspend fun deleteSubStocks(vararg subStocks: SubStockEntity)
+
+    suspend fun deleteSubResults(vararg subResults: SubResultEntity)
 }
