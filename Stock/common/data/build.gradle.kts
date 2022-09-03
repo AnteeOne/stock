@@ -16,6 +16,10 @@ dependencies {
     implementation(Deps.Network.gsonConverter)
     implementation(Deps.Network.okHttpLogging)
 
+    implementation(Deps.Local.room)
+    implementation(Deps.Local.roomKtx)
+    kapt(Deps.Local.roomKapt)
+
     implementation(Deps.Dagger.core)
     kapt(Deps.Dagger.compiler)
 }

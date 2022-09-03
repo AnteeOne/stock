@@ -12,7 +12,7 @@ object Versions {
     const val androidxLifecycle = "2.4.0"
     const val androidxViewpager = "1.1.0-alpha01"
     const val androidxWorkManager = "2.4.0"
-    const val androidxRoom = "2.4.0-beta01"
+    const val androidxRoom = "2.4.3"
     const val androidxPaging = "3.0.0-alpha06"
     const val androidxViewPager2 = "1.0.0"
     const val androidxHilt = "1.0.0-alpha03"
@@ -115,5 +115,11 @@ object Deps {
         const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
         const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
         const val okHttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
+    }
+
+    object Local {
+        const val room = "androidx.room:room-runtime:${Versions.androidxRoom}"
+        const val roomKapt = "androidx.room:room-compiler:${Versions.androidxRoom}"
+        const val roomKtx = "androidx.room:room-ktx:${Versions.androidxRoom}"
     }
 }

@@ -11,5 +11,6 @@ data class StockDetails(
     val low24h: Double,
     val lastUpdated: String,
     val chartData: List<ChartPoint>,
-    val imageUrl: String
+    val imageUrl: String,
+    val inSubList: Boolean
 )

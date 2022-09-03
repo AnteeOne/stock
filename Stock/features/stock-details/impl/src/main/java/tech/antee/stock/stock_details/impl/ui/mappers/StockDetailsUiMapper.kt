@@ -18,7 +18,8 @@ class StockDetailsUiMapper @Inject constructor() {
             low24h,
             lastUpdated,
             chartData,
-            imageUrl
+            imageUrl,
+            inSubList
         )
     }
 }

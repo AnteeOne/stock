@@ -41,6 +41,7 @@ dependencies {
     implementation(Deps.Compose.navigation)
     implementation(Deps.Accompanist.systemUiController)
     implementation(Deps.Network.retrofit)
+    implementation(Deps.Local.room)
     testImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
     androidTestImplementation(Deps.Test.jUnit)
