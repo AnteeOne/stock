@@ -2,6 +2,7 @@ package tech.antee.stock.stock_list.ui
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import tech.antee.stock.common_ui.BaseViewModel
+import tech.antee.stock.domain.repositories.RobotRepository
 import tech.antee.stock.domain.usecases.GetStockListUsecase
 import tech.antee.stock.stock_list.ui.mappers.StockInListUiMapper
 import tech.antee.stock.stock_list.ui.models.Action
@@ -13,6 +14,7 @@ import javax.inject.Inject
 class StockListViewModel @Inject constructor(
     private val getStockListUsecase: GetStockListUsecase,
     private val stockRobot: StockRobot,
+    private val stockRobotRepository: RobotRepository,
     private val mapper: StockInListUiMapper
 ) : BaseViewModel<UiState, Event>() {
 
@@ -20,14 +22,12 @@ class StockListViewModel @Inject constructor(
 
     init {
         fetchStockList()
+        observeRobotState()
     }
 
     fun onAction(action: Action) {
         when (action) {
-            // TODO: add actions
-            Action.OnStockRobotClick -> {
-                stockRobot.startRobot()
-            }
+            Action.OnStockRobotClick -> if (!uiState.value.isRobotWorking) stockRobot.startRobot() else stockRobot.stopRobot()
         }
     }
 
@@ -40,6 +40,14 @@ class StockListViewModel @Inject constructor(
                     stocks = getStockListUsecase().map(mapper::mapFromDomain),
                     isError = false
                 )
+            }
+        }
+    }
+
+    private fun observeRobotState() {
+        launchSafely {
+            stockRobotRepository.workingStateFlow.collect { isWorking ->
+                updateState { it.copy(isRobotWorking = isWorking) }
             }
         }
     }

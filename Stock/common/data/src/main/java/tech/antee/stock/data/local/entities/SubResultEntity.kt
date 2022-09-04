@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "sub_result_entities")
 data class SubResultEntity(
     @PrimaryKey val stockId: String,
-    @ColumnInfo(name = "initial_price") val initialPrice: Boolean,
-    @ColumnInfo(name = "final_price") val finalPrice: Boolean
+    @ColumnInfo(name = "initial_price") val initialPrice: Double,
+    @ColumnInfo(name = "final_price") val finalPrice: Double
 )

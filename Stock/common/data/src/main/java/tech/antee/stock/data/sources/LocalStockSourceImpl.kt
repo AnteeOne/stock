@@ -15,8 +15,7 @@ class LocalStockSourceImpl @Inject constructor(
     override suspend fun getAllSubStocks(): List<SubStockEntity> =
         withContext(Dispatchers.IO) { stockDao.getAllSubStocks() }
 
-    override suspend fun getAllSubResults(): List<SubResultEntity> =
-        withContext(Dispatchers.IO) { stockDao.getAllSubResults() }
+    override suspend fun getAllSubResultsFlow(): Flow<List<SubResultEntity>> = stockDao.getAllSubResultsFlow()
 
     override suspend fun getSubStockById(id: String): SubStockEntity =
         withContext(Dispatchers.IO) { stockDao.getSubStockById(id) }
@@ -29,10 +28,12 @@ class LocalStockSourceImpl @Inject constructor(
     override suspend fun insertSubStocks(vararg subStocks: SubStockEntity) =
         withContext(Dispatchers.IO) { stockDao.insertSubStocks(*subStocks) }
 
-    override suspend fun insertSubResults(vararg subResults: SubResultEntity) = withContext(Dispatchers.IO) { stockDao.insertSubResults(*subResults) }
+    override suspend fun insertSubResults(vararg subResults: SubResultEntity) =
+        withContext(Dispatchers.IO) { stockDao.insertSubResults(*subResults) }
 
     override suspend fun deleteSubStocks(vararg subStocks: SubStockEntity) =
         withContext(Dispatchers.IO) { stockDao.deleteSubStocks(*subStocks) }
 
-    override suspend fun deleteSubResults(vararg subResults: SubResultEntity) = withContext(Dispatchers.IO) { stockDao.deleteSubResults(*subResults) }
+    override suspend fun deleteSubResults(vararg subResults: SubResultEntity) =
+        withContext(Dispatchers.IO) { stockDao.deleteSubResults(*subResults) }
 }

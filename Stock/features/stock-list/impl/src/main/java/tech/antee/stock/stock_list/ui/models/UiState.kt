@@ -2,6 +2,7 @@ package tech.antee.stock.stock_list.ui.models
 
 data class UiState(
     val stocks: List<StockInListItem>,
+    val isRobotWorking: Boolean,
     val isLoading: Boolean,
     val isError: Boolean
 ) {
@@ -17,6 +18,7 @@ data class UiState(
     companion object {
         fun empty() = UiState(
             stocks = emptyList(),
+            isRobotWorking = false,
             isLoading = false,
             isError = false
         )
