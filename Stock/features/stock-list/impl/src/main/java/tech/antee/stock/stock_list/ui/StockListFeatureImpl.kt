@@ -10,6 +10,7 @@ import tech.antee.stock.multi_compose.find
 import tech.antee.stock.stock_list.api.StockListFeature
 import tech.antee.stock.stock_list.di.DaggerStockListComponent
 import tech.antee.stock.stock_list.di.LocalStockListDependencies
+import tech.antee.stock.stock_robot.api.StockRobot
 import tech.antee.stock_details.StockDetailsFeature
 import javax.inject.Inject
 

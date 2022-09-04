@@ -17,4 +17,7 @@ object Modules {
 
     const val featureStockDetailsApi = ":features:stock-details:api"
     const val featureStockDetailsImpl = ":features:stock-details:impl"
+
+    const val featureStockRobotApi = ":features:stock-robot:api"
+    const val featureStockRobotImpl = ":features:stock-robot:impl"
 }
