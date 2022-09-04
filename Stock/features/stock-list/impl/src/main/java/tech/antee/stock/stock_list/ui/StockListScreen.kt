@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import tech.antee.stock.stock_list.ui.components.StockListItemComponent
+import tech.antee.stock.stock_list.ui.models.Action
 import tech.antee.stock.stock_list.ui.models.UiState
 import tech.antee.stock.ui.theme.Dimensions
 import tech.antee.stock.ui.theme.White
@@ -52,7 +53,9 @@ internal fun StockListScreen(
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AppBar()
+            AppBar(
+                onRobotClick = { viewModel.onAction(Action.OnStockRobotClick) }
+            )
             VerticalSpacer(height = 54.dp)
             Balance()
             VerticalSpacer(height = 72.dp)
@@ -66,6 +69,7 @@ internal fun StockListScreen(
 private fun AppBar(
     imageUrl: String = "https://static.pepper.ru/users/raw/default/442073_1/fi/60x60/qt/45/442073_1.jpg",
     onAvatarClick: () -> Unit = {},
+    onRobotClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(
@@ -74,12 +78,8 @@ private fun AppBar(
                 modifier = modifier.size(36.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickableRipple(onClick = onAvatarClick),
-                    model = "https://cdn-icons-png.flaticon.com/512/2021/2021646.png",
-                    contentDescription = "Avatar" // TODO
+                RobotButton(
+                    onClick = onRobotClick
                 )
             }
         },
@@ -111,7 +111,7 @@ private fun RobotButton(
     Image(
         modifier = Modifier
             .fillMaxSize(),
-        painter = painterResource(R.drawable.ic_back),
+        painter = painterResource(android.R.drawable.ic_media_play),
         contentDescription = stringResource(R.string.descr_back)
     )
 }

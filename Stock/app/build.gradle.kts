@@ -25,6 +25,7 @@ dependencies {
 
     projectImplementation(Modules.featureStockListImpl)
     projectImplementation(Modules.featureStockDetailsImpl)
+    projectImplementation(Modules.featureStockRobotImpl)
 
     implementation(Deps.Compose.ui)
     implementation(Deps.Compose.foundation)
