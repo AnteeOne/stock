@@ -8,7 +8,7 @@ interface LocalStockSource {
 
     suspend fun getAllSubStocks(): List<SubStockEntity>
 
-    suspend fun getAllSubResults(): List<SubResultEntity>
+    suspend fun getAllSubResultsFlow(): Flow<List<SubResultEntity>>
 
     suspend fun getSubStockById(id: String): SubStockEntity
 

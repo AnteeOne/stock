@@ -3,8 +3,14 @@ package tech.antee.stock
 import android.app.Application
 import tech.antee.stock.di.AppProvider
 import tech.antee.stock.di.DaggerAppComponent
+import tech.antee.stock.di.DependenciesHolder
+import tech.antee.stock.di.DependenciesMap
+import javax.inject.Inject
 
-class App : Application() {
+class App : Application(), DependenciesHolder {
+
+    @Inject
+    override lateinit var dependenciesMap: DependenciesMap
 
     lateinit var appProvider: AppProvider
 

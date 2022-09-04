@@ -54,6 +54,7 @@ internal fun StockListScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AppBar(
+                isRobotWorking = uiState.isRobotWorking,
                 onRobotClick = { viewModel.onAction(Action.OnStockRobotClick) }
             )
             VerticalSpacer(height = 54.dp)
@@ -68,6 +69,7 @@ internal fun StockListScreen(
 @Composable
 private fun AppBar(
     imageUrl: String = "https://static.pepper.ru/users/raw/default/442073_1/fi/60x60/qt/45/442073_1.jpg",
+    isRobotWorking: Boolean,
     onAvatarClick: () -> Unit = {},
     onRobotClick: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -79,6 +81,7 @@ private fun AppBar(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 RobotButton(
+                    isRobotWorking = isRobotWorking,
                     onClick = onRobotClick
                 )
             }
@@ -102,16 +105,18 @@ private fun AppBar(
 
 @Composable
 private fun RobotButton(
+    isRobotWorking: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) = IconButton(
     modifier = modifier.size(Dimensions.sizeIconXs),
     onClick = onClick
 ) {
+    val iconId = if (isRobotWorking) android.R.drawable.ic_media_pause else android.R.drawable.ic_media_play
     Image(
         modifier = Modifier
             .fillMaxSize(),
-        painter = painterResource(android.R.drawable.ic_media_play),
+        painter = painterResource(iconId),
         contentDescription = stringResource(R.string.descr_back)
     )
 }

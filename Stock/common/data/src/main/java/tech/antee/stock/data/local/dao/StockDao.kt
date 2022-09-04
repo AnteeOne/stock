@@ -12,7 +12,7 @@ interface StockDao {
     fun getAllSubStocks(): List<SubStockEntity>
 
     @Query("SELECT * FROM sub_result_entities")
-    fun getAllSubResults(): List<SubResultEntity>
+    fun getAllSubResultsFlow(): Flow<List<SubResultEntity>>
 
     @Query("SELECT * FROM sub_stock_entities WHERE stockId LIKE :id LIMIT 1")
     fun getSubStockById(id: String): SubStockEntity

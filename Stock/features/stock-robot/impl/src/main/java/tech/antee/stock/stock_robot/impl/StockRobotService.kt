@@ -17,15 +17,37 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import tech.antee.stock.di.findDependencies
+import tech.antee.stock.domain.repositories.RobotRepository
+import tech.antee.stock.domain.usecases.CheckStockSubUsecase
+import tech.antee.stock.domain.usecases.GetSubStocksUsecase
+import tech.antee.stock.stock_robot.impl.di.DaggerStockRobotComponent
+import tech.antee.stock.stock_robot.impl.di.StockRobotDependencies
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
+// TODO: clean-up service
 class StockRobotService : LifecycleService() {
+
+    @Inject
+    lateinit var getSubStocksUsecase: GetSubStocksUsecase
+
+    @Inject
+    lateinit var checkStockSubUsecase: CheckStockSubUsecase
+
+    @Inject
+    lateinit var robotRepository: RobotRepository
 
     private var robotJob: Job? = null
 
     override fun onCreate() {
         super.onCreate()
+
+        val deps = application.findDependencies<StockRobotDependencies>()
+        DaggerStockRobotComponent.factory().create(deps).inject(this)
         Log.d(TAG, "onCreate")
     }
 
@@ -46,25 +68,36 @@ class StockRobotService : LifecycleService() {
         return START_NOT_STICKY
     }
 
-    private fun startRobot() {
+    private fun startRobot(
+        delay: Duration = 2.minutes
+    ) {
         if (robotJob != null) {
             Log.d(TAG, "Stock robot is already working")
             return
         }
         robotJob = launchSafely(Dispatchers.IO) {
             while (true) {
-                delay(5_000L)
-                Log.d(TAG, "Robot is working")
+                robotRepository.updateState(true)
+                getSubStocksUsecase().forEach { subStock ->
+                    with(subStock) {
+                        checkStockSubUsecase(stockId, price)?.let { subResult ->
+                            // TODO: impl notification logic
+                        }
+                    }
+                }
+                delay(delay)
             }
         }
     }
 
     private suspend fun pauseRobot() {
+        // TODO: impl this shit
     }
 
     override fun onDestroy() {
         super.onDestroy()
         robotJob?.cancel()
+        launchSafely { robotRepository.updateState(false) }
         Log.d(TAG, "onDestroy")
     }
 
