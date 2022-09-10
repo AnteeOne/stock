@@ -10,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -24,7 +23,6 @@ import tech.antee.stock.stock_details.impl.ui.models.StockDetailsItem
 import tech.antee.stock.stock_details.impl.ui.models.SubButtonState
 import tech.antee.stock.ui.theme.Black
 import tech.antee.stock.ui.theme.Dimensions
-import tech.antee.stock.ui.theme.Green
 import tech.antee.stock.ui.theme.White
 import tech.antee.stock.ui_components.button.ButtonState
 import tech.antee.stock.ui_components.button.StockButton
@@ -68,7 +66,8 @@ fun StockDetailsScreen(
                         .fillMaxWidth()
                         .padding(Dimensions.paddingHorizontalM)
                 ) {
-                    StockChartCard()
+                    val percentChangesColor = if (percentChange >= 0) Color.Green else Color.Red
+                    StockChartCard(percentChangesColor)
                     VerticalSpacer(height = 16.dp)
                     SubscribeButton(
                         onClick = { viewModel.onAction(Action.OnSubscribeButtonClick) },
@@ -126,6 +125,7 @@ fun StockDetailsItem.StockInfo() {
 
 @Composable
 fun StockDetailsItem.StockChartCard(
+    chartColor: Color,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -136,8 +136,7 @@ fun StockDetailsItem.StockChartCard(
                 ),
                 shape = RoundedCornerShape(Dimensions.cornersM)
             )
-            .clip(RoundedCornerShape(Dimensions.cornersM))
-            .blur(40.dp),
+            .clip(RoundedCornerShape(Dimensions.cornersM)),
     ) {
         LineChart(
             modifier = Modifier
@@ -145,7 +144,7 @@ fun StockDetailsItem.StockChartCard(
                 .aspectRatio(1f)
                 .padding(top = Dimensions.cornersS),
             data = chartData.map { it.timestamp to it.price },
-            graphColor = Green
+            graphColor = chartColor
         )
     }
 }

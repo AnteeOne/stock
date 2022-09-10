@@ -11,8 +11,8 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
@@ -58,6 +58,7 @@ class StockRobotService : LifecycleService() {
         intent?.action?.let { action ->
             when (action) {
                 ACTION_START_ROBOT -> {
+                    createNotificationChannel()
                     startServiceInForeground()
                     startRobot()
                 }
@@ -81,7 +82,16 @@ class StockRobotService : LifecycleService() {
                 getSubStocksUsecase().forEach { subStock ->
                     with(subStock) {
                         checkStockSubUsecase(stockId, price)?.let { subResult ->
-                            // TODO: impl notification logic
+                            val notification = NotificationCompat.Builder(this@StockRobotService, CHANNEL_ID)
+                                .setSmallIcon(android.R.drawable.btn_star)
+                                .setContentTitle(subResult.stockId)
+                                .setContentText("Price reached - ${subResult.finalPrice}")
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .build()
+                            with(NotificationManagerCompat.from(this@StockRobotService)) {
+                                val notificationId = 228
+                                notify(notificationId, notification)
+                            }
                         }
                     }
                 }
@@ -108,8 +118,7 @@ class StockRobotService : LifecycleService() {
     }
 
     private fun buildNotification(
-        channelId: String = "Stock",
-        channelName: String = "Stock",
+        channelId: String = CHANNEL_ID,
         title: String = "Stock Robot",
         text: String = "Stock Robot is Working"
     ): Notification {
@@ -117,12 +126,11 @@ class StockRobotService : LifecycleService() {
         val stopAction = Notification.Action.Builder(
             Icon.createWithResource(this, android.R.drawable.ic_media_pause),
             "Stop",
-            PendingIntent.getService(this, 0, stopIntent, 0)
+            PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
         ).build()
         return when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                val notificationChannelId = createNotificationChannel(channelId, channelName)
-                Notification.Builder(this, notificationChannelId)
+                Notification.Builder(this, CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(text)
                     .setSmallIcon(android.R.drawable.ic_menu_mylocation)
@@ -147,17 +155,19 @@ class StockRobotService : LifecycleService() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(channelId: String, channelName: String): String {
-        val chan = NotificationChannel(
-            channelId,
-            channelName, NotificationManager.IMPORTANCE_NONE
-        )
-        chan.lightColor = Color.BLUE
-        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        service.createNotificationChannel(chan)
-        return channelId
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_NONE
+            ).apply {
+                lightColor = Color.BLUE
+                lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+            }
+            val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            service.createNotificationChannel(channel)
+        }
     }
 
     private fun handleError(e: Throwable) {
@@ -181,6 +191,9 @@ class StockRobotService : LifecycleService() {
     companion object {
 
         private const val TAG = "StockRobotService"
+
+        private const val CHANNEL_ID = "Stock"
+        private const val CHANNEL_NAME = "Stock"
 
         private const val ACTION_START_ROBOT = "tech.antee.stock.start_robot"
         private const val ACTION_STOP_ROBOT = "tech.antee.stock.stop_robot"

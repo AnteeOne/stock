@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -31,6 +30,7 @@ import tech.antee.stock.stock_list.ui.models.UiState
 import tech.antee.stock.ui.theme.Dimensions
 import tech.antee.stock.ui.theme.White
 import tech.antee.stock.ui_components.R
+import tech.antee.stock.ui_components.common.HorizontalSpacer
 import tech.antee.stock.ui_components.common.VerticalSpacer
 import tech.antee.stock.ui_components.extensions.clickableRipple
 import tech.antee.stock.ui_components.loader.Loader
@@ -68,27 +68,37 @@ internal fun StockListScreen(
 
 @Composable
 private fun AppBar(
-    imageUrl: String = "https://static.pepper.ru/users/raw/default/442073_1/fi/60x60/qt/45/442073_1.jpg",
     isRobotWorking: Boolean,
+    modifier: Modifier = Modifier,
+    imageUrl: String = "https://static.pepper.ru/users/raw/default/442073_1/fi/60x60/qt/45/442073_1.jpg",
     onAvatarClick: () -> Unit = {},
     onRobotClick: () -> Unit = {},
-    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
+        modifier = modifier,
         leftAction = {
-            Surface(
-                modifier = modifier.size(36.dp),
-                shape = RoundedCornerShape(8.dp)
+            Row(
+                modifier = Modifier,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 RobotButton(
+                    modifier = Modifier.size(36.dp),
                     isRobotWorking = isRobotWorking,
                     onClick = onRobotClick
+                )
+                val text = if (isRobotWorking) "Stop robot" else "Start robot"
+                HorizontalSpacer(Dimensions.paddingHorizontalXxs)
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = White.copy(alpha = 0.4f),
+                    textAlign = TextAlign.Center
                 )
             }
         },
         rightAction = {
             Surface(
-                modifier = modifier.size(36.dp),
+                modifier = Modifier.size(36.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
                 AsyncImage(
@@ -165,7 +175,6 @@ private fun StocksCard(
                 ),
                 shape = shape
             )
-            .blur(40.dp)
             .clip(shape)
     ) {
         Column(
