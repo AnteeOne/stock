@@ -32,6 +32,7 @@ class CheckStockSubUsecase @Inject constructor(
         }
     }
 
+    // TODO: get from algorithm
     private fun isCurrentPriceGood(
         oldPrice: Double,
         currentPrice: Double
